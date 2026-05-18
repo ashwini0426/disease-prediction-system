@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Symptoms</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Select Symptoms</h1>
+
+    <form method="POST">
+
+        {% for symptom in symptoms %}
+
+        <div class="symptom-box">
+            <input type="checkbox" name="symptoms" value="{{ symptom }}">
+            <label>{{ symptom.replace('_', ' ').title() }}</label>
+        </div>
+
+        {% endfor %}
+
+        <button type="submit">Predict Disease</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

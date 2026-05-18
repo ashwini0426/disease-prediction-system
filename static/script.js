@@ -1,0 +1,1 @@
+console.log("Disease Prediction App Loaded Successfully");

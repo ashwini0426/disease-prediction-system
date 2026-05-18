@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Prediction Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Prediction Result</h1>
+
+    <h2>{{ disease }}</h2>
+
+    {% if matched %}
+
+    <h3>Matched Symptoms:</h3>
+
+    <ul>
+
+        {% for symptom in matched %}
+
+        <li>
+            {{ symptom.replace('_', ' ').title() }}
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    <a href="{{ url_for('solution', disease=disease) }}">
+
+        <button>Natural Solution</button>
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
