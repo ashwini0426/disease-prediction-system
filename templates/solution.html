@@ -14,9 +14,26 @@
 
 <div class="container">
 
-    <h1>{{ disease }}</h1>
+    <h1>Disease Predicted: {{ disease }}</h1>
 
-    <p>{{ solution }}</p>
+    <div class="solution-box">
+
+        <h2>Medicines</h2>
+        <p>{{ solution.medicines }}</p>
+
+        <h2>Precautions</h2>
+        <p>{{ solution.precautions }}</p>
+
+        <h2>Diet Plans</h2>
+        <p>{{ solution.diet }}</p>
+
+        <h2>Home Remedies</h2>
+        <p>{{ solution.home_remedies }}</p>
+
+        <h2>Specialist Doctor Recommendation</h2>
+        <p>{{ solution.doctor }}</p>
+
+    </div>
 
     <a href="/">
 

@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, url_for
-import pandas as pd
 
 # Create Flask App
 app = Flask(__name__)
@@ -33,41 +32,96 @@ symptoms_list = [
     'wheezing'
 ]
 
-# Natural solutions
+# Disease Solutions
 solutions = {
 
-    "Flu":
-    "Drink warm water, take steam and proper rest.",
+    "Flu": {
+        "medicines": "Paracetamol, Cough Syrup",
+        "precautions": "Take rest, Drink warm water",
+        "diet": "Soup, Fruits, Warm liquids",
+        "home_remedies": "Ginger tea, Steam inhalation",
+        "doctor": "General Physician"
+    },
 
-    "Heart Disease":
-    "Avoid oily foods and do exercise daily.",
+    "Heart Disease": {
+        "medicines": "Aspirin, Blood Pressure Tablets",
+        "precautions": "Avoid stress and oily food",
+        "diet": "Low-fat diet, Green vegetables",
+        "home_remedies": "Regular walking, Meditation",
+        "doctor": "Cardiologist"
+    },
 
-    "Eye Disease":
-    "Reduce screen time and eat green vegetables.",
+    "Eye Disease": {
+        "medicines": "Eye Drops, Vitamin A tablets",
+        "precautions": "Avoid screen time",
+        "diet": "Carrot, Green vegetables",
+        "home_remedies": "Cold water wash",
+        "doctor": "Eye Specialist"
+    },
 
-    "Teeth Disease":
-    "Brush teeth twice daily and avoid sugar foods.",
+    "Teeth Disease": {
+        "medicines": "Painkillers, Mouth Gel",
+        "precautions": "Brush twice daily",
+        "diet": "Avoid sweets",
+        "home_remedies": "Salt water rinse",
+        "doctor": "Dentist"
+    },
 
-    "PCOD":
-    "Exercise daily and avoid junk food.",
+    "PCOD": {
+        "medicines": "Hormonal tablets",
+        "precautions": "Exercise regularly",
+        "diet": "Healthy protein diet",
+        "home_remedies": "Yoga and hydration",
+        "doctor": "Gynecologist"
+    },
 
-    "Diabetes":
-    "Avoid sugar and maintain healthy diet.",
+    "Diabetes": {
+        "medicines": "Insulin, Metformin",
+        "precautions": "Avoid sugar",
+        "diet": "Low sugar diet",
+        "home_remedies": "Fenugreek seeds",
+        "doctor": "Diabetologist"
+    },
 
-    "Dengue":
-    "Drink more fluids and take proper rest.",
+    "Dengue": {
+        "medicines": "Paracetamol",
+        "precautions": "Avoid mosquito exposure",
+        "diet": "Papaya leaf juice, Fluids",
+        "home_remedies": "Drink plenty of water",
+        "doctor": "General Physician"
+    },
 
-    "Kidney Disease":
-    "Drink enough water and avoid salty foods.",
+    "Kidney Disease": {
+        "medicines": "Blood pressure medicines",
+        "precautions": "Reduce salt intake",
+        "diet": "Low sodium diet",
+        "home_remedies": "Stay hydrated",
+        "doctor": "Nephrologist"
+    },
 
-    "Skin Disease":
-    "Keep skin clean and avoid chemicals.",
+    "Skin Disease": {
+        "medicines": "Antifungal cream",
+        "precautions": "Maintain hygiene",
+        "diet": "Vitamin-rich foods",
+        "home_remedies": "Aloe vera gel",
+        "doctor": "Dermatologist"
+    },
 
-    "Asthma":
-    "Avoid smoke and dust.",
+    "Asthma": {
+        "medicines": "Inhaler",
+        "precautions": "Avoid dust and smoke",
+        "diet": "Healthy fruits",
+        "home_remedies": "Steam therapy",
+        "doctor": "Pulmonologist"
+    },
 
-    "Typhoid":
-    "Drink boiled water and eat light food."
+    "Typhoid": {
+        "medicines": "Antibiotics",
+        "precautions": "Drink clean water",
+        "diet": "Boiled food, Fruits",
+        "home_remedies": "ORS and rest",
+        "doctor": "General Physician"
+    }
 }
 
 # Home Page
@@ -94,9 +148,15 @@ def symptoms():
         if len(selected) <= 1:
 
             return render_template(
-                'result.html',
+                'solution.html',
                 disease="No Disease Predicted",
-                matched=[]
+                solution={
+                    "medicines": "No medicines available",
+                    "precautions": "No precautions available",
+                    "diet": "No diet available",
+                    "home_remedies": "No home remedies available",
+                    "doctor": "No doctor recommendation"
+                }
             )
 
         # Disease symptom mapping
@@ -199,12 +259,22 @@ def symptoms():
 
             best_disease = "No Disease Predicted"
 
-            matched_symptoms = []
+        # Get Solution Data
+        solution_data = solutions.get(
+            best_disease,
+            {
+                "medicines": "No medicines available",
+                "precautions": "No precautions available",
+                "diet": "No diet available",
+                "home_remedies": "No home remedies available",
+                "doctor": "No doctor recommendation"
+            }
+        )
 
         return render_template(
-            'result.html',
+            'solution.html',
             disease=best_disease,
-            matched=matched_symptoms
+            solution=solution_data
         )
 
     return render_template(
@@ -212,26 +282,7 @@ def symptoms():
         symptoms=symptoms_list
     )
 
-# Solution Page
-@app.route('/solution')
-def solution():
-
-    from flask import request
-
-    disease = request.args.get('disease')
-
-    solution_text = solutions.get(
-        disease,
-        'No solution available'
-    )
-
-    return render_template(
-        'solution.html',
-        disease=disease,
-        solution=solution_text
-    )
-
 # Run App
 if __name__ == '__main__':
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
